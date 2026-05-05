@@ -1,9 +1,8 @@
 <?php
 /**
- * Refinery89 default slot definitions
+ * Default slot definitions
  *
- * Based on Refinery89 implementation documentation.
- * Contains default heights for all standard R89 ad slots.
+ * Contains default heights for all standard ad slots.
  *
  * @package Ad_Space_Reserve
  */
@@ -12,7 +11,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ASR_Refinery89_Defaults {
+class ASR_Slot_Defaults {
 
     /**
      * Desktop breakpoint (min-width for desktop)
@@ -55,74 +54,74 @@ class ASR_Refinery89_Defaults {
         return [
             'billboard-btf' => [
                 'name' => 'Billboard BTF',
-                'css_class' => 'r89-desktop-billboard-btf',
+                'css_class' => 'asr-desktop-billboard-btf',
                 'height' => 250,
                 'description' => 'Billboard Below The Fold',
             ],
             'billboard-atf' => [
                 'name' => 'Billboard ATF',
-                'css_class' => 'r89-desktop-billboard-atf',
+                'css_class' => 'asr-desktop-billboard-atf',
                 'height' => 250,
                 'description' => 'Billboard Above The Fold',
             ],
             'hpa-atf' => [
                 'name' => 'HPA ATF',
-                'css_class' => 'r89-desktop-hpa-atf',
+                'css_class' => 'asr-desktop-hpa-atf',
                 'height' => 600,
                 'description' => 'High Profile Ad Above The Fold',
             ],
             'hpa-btf' => [
                 'name' => 'HPA BTF',
-                'css_class' => 'r89-desktop-hpa-btf',
+                'css_class' => 'asr-desktop-hpa-btf',
                 'height' => 600,
                 'description' => 'High Profile Ad Below The Fold',
             ],
             'video-outstream' => [
                 'name' => 'Video Outstream',
-                'css_class' => 'r89-desktop-video-outstream',
+                'css_class' => 'asr-desktop-video-outstream',
                 'height' => 250,
                 'description' => 'Outstream Video Ad',
             ],
             'incontent' => [
                 'name' => 'In-Content',
-                'css_class' => 'r89-desktop-InContent',
+                'css_class' => 'asr-desktop-incontent',
                 'height' => 250,
                 'description' => 'In-Content Ad Unit',
             ],
             'leaderboard-atf' => [
                 'name' => 'Leaderboard ATF',
-                'css_class' => 'r89-desktop-leaderboard-atf',
+                'css_class' => 'asr-desktop-leaderboard-atf',
                 'height' => 90,
                 'description' => 'Leaderboard Above The Fold',
             ],
             'leaderboard-btf' => [
                 'name' => 'Leaderboard BTF',
-                'css_class' => 'r89-desktop-leaderboard-btf',
+                'css_class' => 'asr-desktop-leaderboard-btf',
                 'height' => 90,
                 'description' => 'Leaderboard Below The Fold',
             ],
             'rectangle-atf' => [
                 'name' => 'Rectangle ATF',
-                'css_class' => 'r89-desktop-rectangle-atf',
+                'css_class' => 'asr-desktop-rectangle-atf',
                 'height' => 250,
                 'description' => 'Rectangle Above The Fold',
             ],
             'rectangle-btf' => [
                 'name' => 'Rectangle BTF',
-                'css_class' => 'r89-desktop-rectangle-btf',
+                'css_class' => 'asr-desktop-rectangle-btf',
                 'height' => 250,
                 'description' => 'Rectangle Below The Fold',
             ],
             'header-pushup' => [
                 'name' => 'Header Pushup',
-                'css_class' => 'r89-desktop-header-pushup',
+                'css_class' => 'asr-desktop-header-pushup',
                 'height' => 90,
                 'description' => 'Header Pushup (Sticky)',
                 'sticky' => true,
             ],
             'takeover' => [
                 'name' => 'Takeover',
-                'css_class' => 'r89-desktop-takeover',
+                'css_class' => 'asr-desktop-takeover',
                 'height' => 250,
                 'description' => 'Page Takeover Ad',
             ],
@@ -138,43 +137,43 @@ class ASR_Refinery89_Defaults {
         return [
             'billboard-top' => [
                 'name' => 'Billboard Top',
-                'css_class' => 'r89-mobile-billboard-top',
+                'css_class' => 'asr-mobile-billboard-top',
                 'height' => 250,
                 'description' => 'Mobile Billboard Top',
             ],
             'rectangle-infinite' => [
                 'name' => 'Rectangle Infinite',
-                'css_class' => 'r89-mobile-rectangle-infinite',
+                'css_class' => 'asr-mobile-rectangle-infinite',
                 'height' => 250,
                 'description' => 'Infinite Scroll Rectangle',
             ],
             'rectangle-low' => [
                 'name' => 'Rectangle Low',
-                'css_class' => 'r89-mobile-rectangle-low',
+                'css_class' => 'asr-mobile-rectangle-low',
                 'height' => 250,
                 'description' => 'Low Position Rectangle',
             ],
             'rectangle-mid' => [
                 'name' => 'Rectangle Mid',
-                'css_class' => 'r89-mobile-rectangle-mid',
+                'css_class' => 'asr-mobile-rectangle-mid',
                 'height' => 250,
                 'description' => 'Mid Position Rectangle',
             ],
             'rectangle-mid-300x600' => [
                 'name' => 'Rectangle Mid 300x600',
-                'css_class' => 'r89-Mobile-Rectangle-Mid-300x600',
+                'css_class' => 'asr-mobile-rectangle-mid-300x600',
                 'height' => 600,
                 'description' => 'Large Mid Position Rectangle',
             ],
             'video-outstream' => [
                 'name' => 'Video Outstream',
-                'css_class' => 'r89-mobile-video-outstream',
+                'css_class' => 'asr-mobile-video-outstream',
                 'height' => 250,
                 'description' => 'Mobile Outstream Video',
             ],
             'header-pushup' => [
                 'name' => 'Header Pushup',
-                'css_class' => 'r89-mobile-header-pushup',
+                'css_class' => 'asr-mobile-header-pushup',
                 'height' => 100,
                 'description' => 'Mobile Header Pushup (Fixed)',
                 'fixed' => true,
@@ -204,12 +203,12 @@ class ASR_Refinery89_Defaults {
     /**
      * Get slot by wrapper ID pattern
      *
-     * @param string $wrapperId e.g., "r89-desktop-billboard-btf-0-wrapper"
+     * @param string $wrapperId e.g., "asr-desktop-billboard-btf-0-wrapper"
      * @return array|null
      */
     public static function get_slot_by_wrapper_id($wrapperId) {
         // Parse wrapper ID
-        $pattern = '/r89-(desktop|mobile)-(.+?)-\d+-wrapper/i';
+        $pattern = '/asr-(desktop|mobile)-(.+?)-\d+-wrapper/i';
         if (!preg_match($pattern, $wrapperId, $matches)) {
             return null;
         }

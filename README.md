@@ -1,4 +1,4 @@
-# Ad Space Reserve
+# AdShimmer
 
 **Prevent Cumulative Layout Shift (CLS) from dynamically injected ads — the "set and forget" way.**
 
@@ -8,11 +8,11 @@ A WordPress plugin that automatically detects ad placements and generates server
 
 ## The Problem
 
-When ad networks like Refinery89 inject ads into your pages, they do so **after** the page has loaded using JavaScript. This causes the page content to suddenly shift as ads appear — a poor user experience that Google penalizes through Core Web Vitals scoring.
+When ad networks inject ads into your pages, they do so **after** the page has loaded using JavaScript. This causes the page content to suddenly shift as ads appear — a poor user experience that Google penalizes through Core Web Vitals scoring.
 
 **The typical publisher experience:**
 1. Ad script loads after DOM is ready
-2. Ad wrapper is created dynamically (e.g., `<div id="r89-desktop-billboard-0-wrapper">`)
+2. Ad wrapper is created dynamically (e.g., `<div id="ad-desktop-billboard-0-wrapper">`)
 3. Page content shifts down to make room
 4. Google measures this as CLS (Cumulative Layout Shift)
 5. Your Core Web Vitals score drops
@@ -28,7 +28,7 @@ When ad networks like Refinery89 inject ads into your pages, they do so **after*
 
 ## The Solution
 
-Ad Space Reserve automates everything:
+AdShimmer automates everything:
 
 1. **Scan** — Enable scan mode, browse your site, and the plugin detects where ads are injected
 2. **Configure** — Review detected slots, adjust heights if needed
@@ -43,20 +43,20 @@ The generated code creates containers that exist in the HTML **before any JavaSc
 
 ### Installation
 
-1. Download and extract to `/wp-content/plugins/ad-space-reserve/`
+1. Download and extract to `/wp-content/plugins/adshimmer/`
 2. Activate the plugin in WordPress admin
 3. Ensure you have a **child theme** active (required for code generation)
 
 ### Usage
 
-1. Go to **Settings → Ad Space Reserve**
+1. Go to **Settings → AdShimmer**
 2. Enable **Scan Mode**
 3. Open your site in a new tab and browse pages where ads appear (homepage, articles, etc.)
 4. Return to the settings page — detected ad slots will appear
 5. Click **Configure** on each slot you want to reserve space for
-6. Adjust min-heights if needed (defaults from Refinery89 specs)
+6. Adjust min-heights if needed (defaults based on common ad specs)
 7. Click **Generate Code**
-8. Update your R89 dashboard to target the new `.asr-ad-slot` classes (one-time setup)
+8. Update your ad network dashboard to target the new `.asr-ad-slot` classes (one-time setup)
 
 ### That's it!
 
@@ -87,8 +87,8 @@ The solution:
 │   Scan Mode     │────▶│  Detect Wrappers │────▶│  Save to Admin  │
 │   (Frontend)    │     │  (MutationObserver)    │  (AJAX)         │
 └─────────────────┘     └──────────────────┘     └─────────────────┘
-                                                          │
-                                                          ▼
+                                                         │
+                                                         ▼
 ┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
 │  Zero CLS!      │◀────│  Write to Theme  │◀────│  Configure &    │
 │  (Production)   │     │  (PHP + CSS)     │     │  Generate       │
@@ -98,7 +98,7 @@ The solution:
 **Phase 1: Detection**
 - Admin enables scan mode and visits the site
 - JavaScript uses `MutationObserver` to watch for ad wrapper creation
-- When wrappers like `r89-desktop-billboard-btf-0-wrapper` appear, the scanner captures:
+- When wrappers like `ad-desktop-billboard-btf-0-wrapper` appear, the scanner captures:
   - Wrapper ID pattern
   - Device type (desktop/mobile)
   - Slot type (billboard, rectangle, etc.)
@@ -108,7 +108,7 @@ The solution:
 
 **Phase 2: Configuration**
 - Admin reviews detected slots in the WordPress dashboard
-- Each slot shows suggested min-height based on Refinery89 specifications
+- Each slot shows suggested min-height based on common ad specifications
 - Admin can adjust heights and injection positions
 
 **Phase 3: Code Generation**
@@ -130,8 +130,8 @@ The solution:
 ### File Structure
 
 ```
-ad-space-reserve/
-├── ad-space-reserve.php              # Plugin bootstrap, hooks, AJAX handlers
+adshimmer/
+├── adshimmer.php                     # Plugin bootstrap, hooks, AJAX handlers
 ├── uninstall.php                     # Clean removal (preserves theme files)
 ├── assets/
 │   ├── css/
@@ -145,7 +145,7 @@ ad-space-reserve/
     ├── class-scanner.php             # Scan data processing
     ├── class-code-generator.php      # PHP/CSS generation
     ├── class-theme-writer.php        # File writing to child theme
-    └── class-refinery89-defaults.php # Default slot heights
+    └── class-slot-defaults.php       # Default slot heights
 ```
 
 ### Generated Files (in child theme)
@@ -193,7 +193,7 @@ All configuration is stored in WordPress options:
     'last_scan' => '2024-01-15 10:30:00',
     'detected_slots' => [
         [
-            'wrapperId' => 'r89-desktop-billboard-btf-0-wrapper',
+            'wrapperId' => 'asr-desktop-billboard-btf-0-wrapper',
             'device' => 'desktop',
             'slotType' => 'billboard-btf',
             'parentSelector' => '.article-content',
@@ -204,7 +204,7 @@ All configuration is stored in WordPress options:
         // ...
     ],
     'configured_slots' => [
-        'r89-desktop-billboard-btf-0-wrapper' => [
+        'asr-desktop-billboard-btf-0-wrapper' => [
             'cssClass' => 'asr-desktop-billboard-btf',
             'minHeight' => 250,
             'marginTop' => 20,
@@ -221,11 +221,11 @@ All configuration is stored in WordPress options:
 ### Scanner JavaScript (MutationObserver)
 
 ```javascript
-// Watch for dynamically created R89 wrappers
+// Watch for dynamically created ad wrappers
 const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
-            if (node.id?.includes('r89') && node.id?.includes('wrapper')) {
+            if (node.id?.includes('asr') && node.id?.includes('wrapper')) {
                 // Extract slot data and send to WordPress admin
             }
         });
@@ -237,9 +237,9 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 ---
 
-## Refinery89 Slot Reference
+## Slot Reference
 
-Default heights based on Refinery89 specifications:
+Default heights based on common ad specifications:
 
 ### Desktop (≥992px)
 
@@ -269,9 +269,9 @@ Default heights based on Refinery89 specifications:
 
 ---
 
-## R89 Dashboard Configuration
+## Ad Network Dashboard Configuration
 
-After generating code, update your Refinery89 dashboard with the new targeting selectors:
+After generating code, update your ad network dashboard with the new targeting selectors:
 
 **Before (causes CLS):**
 ```
@@ -304,9 +304,9 @@ The plugin's settings page shows the exact selectors to use for each configured 
 
 The plugin generates PHP and CSS files that need to persist across theme updates. Writing to a child theme ensures your CLS prevention code survives parent theme updates.
 
-### Will this work with ad networks other than Refinery89?
+### Will this work with any ad network?
 
-Yes! The scanner detects any dynamically injected elements with ID patterns containing common ad wrapper identifiers. The default heights are optimized for R89, but you can customize heights for any ad network.
+Yes! The scanner detects any dynamically injected elements with ID patterns containing common ad wrapper identifiers. You can customize heights for any ad network.
 
 ### What if my ads have variable heights?
 
@@ -369,7 +369,7 @@ add_filter('asr_allow_parent_theme', '__return_true');
 
 1. Run Lighthouse/PageSpeed Insights to identify the source
 2. Verify the min-height matches or exceeds actual ad height
-3. Check that R89 dashboard targets the `.asr-ad-slot` selectors
+3. Check that your ad network dashboard targets the `.asr-ad-slot` selectors
 4. Ensure CSS is loading early (check network waterfall)
 
 ---

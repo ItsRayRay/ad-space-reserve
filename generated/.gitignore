@@ -1,0 +1,4 @@
+# Ignore generated files but keep the directory
+*
+!.gitignore
+!.gitkeep
