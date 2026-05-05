@@ -41,8 +41,8 @@ function assert(condition, message) {
     return {
       insideContent: Boolean(content && slot && content.contains(slot)),
       slotIndex: children.indexOf('slot'),
-      targetTwoIndex: children.indexOf('Target two'),
-      targetThreeIndex: children.indexOf('Target three'),
+      targetTwoIndex: children.findIndex((text) => text.indexOf('Target two') === 0),
+      targetThreeIndex: children.findIndex((text) => text.indexOf('Target three') === 0),
       legacySlots: document.querySelectorAll('.asr-desktop-billboard-btf').length,
       borderTopStyle: getComputedStyle(slot).borderTopStyle,
     };
