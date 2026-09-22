@@ -523,8 +523,19 @@ class Settings_Page {
             return;
         }
 
-        // Get header code - use wp_unslash to handle slashes, store as-is (trusted admin input).
+        // Header code is emitted verbatim into wp_head, so saving it requires
+        // unfiltered_html rather than manage_options alone. Core denies
+        // unfiltered_html to non-super-admins on multisite and to everyone when
+        // DISALLOW_UNFILTERED_HTML is set; manage_options would bypass both.
         $header_code = isset( $_POST['header_code'] ) ? wp_unslash( $_POST['header_code'] ) : '';
+        if ( ! is_string( $header_code ) ) {
+            $header_code = '';
+        }
+
+        if ( '' !== trim( $header_code ) && ! current_user_can( 'unfiltered_html' ) ) {
+            wp_send_json_error( [ 'message' => __( 'Your account cannot save header scripts on this site.', 'adshimmer' ) ] );
+            return;
+        }
 
         $options = \AdSpaceReserve\Plugin::get_instance()->get_options();
         $options->set( 'header_code', $header_code );
@@ -556,6 +567,21 @@ class Settings_Page {
 
         if ( ! is_array( $blocks ) ) {
             wp_send_json_error( [ 'message' => __( 'Invalid blocks data.', 'adshimmer' ) ] );
+            return;
+        }
+
+        // Block code is emitted verbatim into wp_head, so saving any non-empty
+        // code requires unfiltered_html rather than manage_options alone.
+        $has_code = false;
+        foreach ( $blocks as $block ) {
+            if ( is_array( $block ) && '' !== trim( (string) ( $block['code'] ?? '' ) ) ) {
+                $has_code = true;
+                break;
+            }
+        }
+
+        if ( $has_code && ! current_user_can( 'unfiltered_html' ) ) {
+            wp_send_json_error( [ 'message' => __( 'Your account cannot save header scripts on this site.', 'adshimmer' ) ] );
             return;
         }
 

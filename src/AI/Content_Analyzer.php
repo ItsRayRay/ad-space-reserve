@@ -240,8 +240,7 @@ class Content_Analyzer {
         $response = wp_remote_get(
             $url,
             [
-                'timeout'   => 10,
-                'sslverify' => false,
+                'timeout' => 10,
             ]
         );
 
@@ -560,8 +559,7 @@ class Content_Analyzer {
         $response = wp_remote_get(
             $url,
             [
-                'timeout'   => 15,
-                'sslverify' => false,
+                'timeout' => 15,
             ]
         );
 

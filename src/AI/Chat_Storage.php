@@ -32,6 +32,16 @@ class Chat_Storage {
     private const MAX_CONVERSATIONS = 10;
 
     /**
+     * Maximum messages retained per conversation.
+     *
+     * Without this, a single conversation grows without bound and the whole
+     * option is read back and rewritten on every message.
+     *
+     * @var int
+     */
+    private const MAX_MESSAGES_PER_CONVERSATION = 200;
+
+    /**
      * Singleton instance.
      *
      * @var Chat_Storage|null
@@ -167,6 +177,16 @@ class Chat_Storage {
                 ];
 
                 $conv['messages'][] = $message;
+
+                // Keep only the most recent messages so the stored option
+                // cannot grow without bound.
+                if ( count( $conv['messages'] ) > self::MAX_MESSAGES_PER_CONVERSATION ) {
+                    $conv['messages'] = array_slice(
+                        $conv['messages'],
+                        -self::MAX_MESSAGES_PER_CONVERSATION
+                    );
+                }
+
                 $conv['updated_at'] = $now;
 
                 // Generate title from first user message if not set.
@@ -341,7 +361,10 @@ class Chat_Storage {
      * @return bool True on success, false on failure.
      */
     private function save_storage_data( array $data ): bool {
-        return update_option( self::OPTION_KEY, $data );
+        // Autoload 'no': this is admin-only data that must not be loaded on
+        // every frontend request. WordPress only decides autoload by value size
+        // from 6.6 onward, and this plugin supports older releases.
+        return update_option( self::OPTION_KEY, $data, 'no' );
     }
 
     /**
